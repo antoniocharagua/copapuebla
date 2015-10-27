@@ -8,8 +8,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreeModel;
+import javax.swing.tree.TreeNode;
 import org.springframework.stereotype.Component;
 
 /**
@@ -19,10 +19,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class VisorArbol extends JPanel{
 
-    JTree arbol;
-    TreeModel treeModel;
-    MutableTreeNode nodo;
-    JScrollPane jScrollPane;    
+    private JTree arbol;
+    private TreeModel treeModel;
+    private TreeNode nodo;
+    private JScrollPane jScrollPane;    
     
     @PostConstruct
     public void init () {
@@ -34,8 +34,8 @@ public class VisorArbol extends JPanel{
         jScrollPane.setMinimumSize(new Dimension(100, 50));
     }
 
-    public JTree getArbol() {
-        return arbol;
+    public TreeModel getTreeModel() {
+        return treeModel;
     }
 
 }

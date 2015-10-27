@@ -14,8 +14,9 @@ public interface GenericDao<T, PK extends Serializable> {
     /**
      * Persiste en la tabla una nueva columna
      * @param t Objecto a persistir
+     * @return Objecto persistido
      */
-    void create(T t);
+    PK create(T t);
     
     /**
      * Borra una columna representada por el objeto
@@ -42,5 +43,11 @@ public interface GenericDao<T, PK extends Serializable> {
      * @param t Objeto con los datos a actualizar en la tabla
      */
     void update(T t);
+    
+    /**
+     * Crear o actualiza una columna a partir de los datos de un objecto
+     * @param t Objeto con los datos a actualizar en la tabla
+     */
+    void saveOrUpdate(T t);
 
 }

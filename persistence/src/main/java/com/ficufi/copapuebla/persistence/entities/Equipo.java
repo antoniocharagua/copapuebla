@@ -1,58 +1,48 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.ficufi.copapuebla.persistence.entities;
 
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
  *
- * @author antonio
+ * @author antonio-lap
  */
 @Entity
 @Table(name = "EQUIPO")
-@NamedQueries({
-    @NamedQuery(name = "Equipo.findAll", query = "SELECT e FROM Equipo e")})
 public class Equipo implements Serializable {
+
     private static final long serialVersionUID = 1L;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "ID")
     private Integer id;
+    
     @Basic(optional = false)
-    @Column(name = "NOMBRE")
+    @Column(name = "NOMBRE", length = 50, nullable = false, unique = true)
     private String nombre;
-    @JoinTable(name = "JUGADOR_EQUIPO", joinColumns = {
-        @JoinColumn(name = "ID_EQUIPO", referencedColumnName = "ID")}, inverseJoinColumns = {
-        @JoinColumn(name = "ID_JUGADOR", referencedColumnName = "ID")})
-    @ManyToMany(fetch = FetchType.LAZY)
-    private List<Jugador> jugadorList;
-    @ManyToMany(mappedBy = "equipoList", fetch = FetchType.LAZY)
-    private List<Torneo> torneoList;
-    @JoinColumn(name = "ID_CATEGORIA", referencedColumnName = "ID")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private Categoria idCategoria;
-    @JoinColumn(name = "ID_GENERO", referencedColumnName = "ID")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private Genero idGenero;
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEquipoPrimero")
+    private List<Partida> partidaList;
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEquipoSegundo")
+    private List<Partida> partidaList1;
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "equipo")
+    private List<EquipoCategoriaTorneo> equipoCategoriaTorneoList;
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "equipo")
+    private List<JugadorEquipoTorneo> jugadorEquipoTorneoList;
 
     public Equipo() {
     }
@@ -82,36 +72,36 @@ public class Equipo implements Serializable {
         this.nombre = nombre;
     }
 
-    public List<Jugador> getJugadorList() {
-        return jugadorList;
+    public List<Partida> getPartidaList() {
+        return partidaList;
     }
 
-    public void setJugadorList(List<Jugador> jugadorList) {
-        this.jugadorList = jugadorList;
+    public void setPartidaList(List<Partida> partidaList) {
+        this.partidaList = partidaList;
     }
 
-    public List<Torneo> getTorneoList() {
-        return torneoList;
+    public List<Partida> getPartidaList1() {
+        return partidaList1;
     }
 
-    public void setTorneoList(List<Torneo> torneoList) {
-        this.torneoList = torneoList;
+    public void setPartidaList1(List<Partida> partidaList1) {
+        this.partidaList1 = partidaList1;
     }
 
-    public Categoria getIdCategoria() {
-        return idCategoria;
+    public List<EquipoCategoriaTorneo> getEquipoCategoriaTorneoList() {
+        return equipoCategoriaTorneoList;
     }
 
-    public void setIdCategoria(Categoria idCategoria) {
-        this.idCategoria = idCategoria;
+    public void setEquipoCategoriaTorneoList(List<EquipoCategoriaTorneo> equipoCategoriaTorneoList) {
+        this.equipoCategoriaTorneoList = equipoCategoriaTorneoList;
     }
 
-    public Genero getIdGenero() {
-        return idGenero;
+    public List<JugadorEquipoTorneo> getJugadorEquipoTorneoList() {
+        return jugadorEquipoTorneoList;
     }
 
-    public void setIdGenero(Genero idGenero) {
-        this.idGenero = idGenero;
+    public void setJugadorEquipoTorneoList(List<JugadorEquipoTorneo> jugadorEquipoTorneoList) {
+        this.jugadorEquipoTorneoList = jugadorEquipoTorneoList;
     }
 
     @Override

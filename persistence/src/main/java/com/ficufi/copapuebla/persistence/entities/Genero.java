@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.ficufi.copapuebla.persistence.entities;
 
 import java.io.Serializable;
@@ -6,38 +11,34 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
  *
- * @author antonio
+ * @author antonio-lap
  */
 @Entity
 @Table(name = "GENERO")
+@NamedQueries({
+    @NamedQuery(name = "Genero.findAll", query = "SELECT g FROM Genero g")})
 public class Genero implements Serializable {
-
     private static final long serialVersionUID = 1L;
-    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "ID")
     private Integer id;
-    
     @Basic(optional = false)
-    @Column(name = "DESCRIPCION", length = 15, nullable = false)
+    @Column(name = "DESCRIPCION")
     private String descripcion;
-    
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idGeneron", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idGeneron")
     private List<Jugador> jugadorList;
-    
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idGenero", fetch = FetchType.LAZY)
-    private List<Equipo> equipoList;
 
     public Genero() {
     }
@@ -75,14 +76,6 @@ public class Genero implements Serializable {
         this.jugadorList = jugadorList;
     }
 
-    public List<Equipo> getEquipoList() {
-        return equipoList;
-    }
-
-    public void setEquipoList(List<Equipo> equipoList) {
-        this.equipoList = equipoList;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -105,9 +98,7 @@ public class Genero implements Serializable {
 
     @Override
     public String toString() {
-        StringBuilder string = new StringBuilder();
-        string.append(" id:").append(id).append(" descripcion:").append(descripcion);
-        return string.toString();
+        return "com.ficufi.copapuebla.persistence.entities.Genero[ id=" + id + " ]";
     }
     
 }

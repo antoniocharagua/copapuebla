@@ -6,24 +6,21 @@
 package com.ficufi.copapuebla.persistence.entities;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
  *
- * @author antonio
+ * @author antonio-lap
  */
 @Entity
 @Table(name = "CATEGORIA")
@@ -39,10 +36,8 @@ public class Categoria implements Serializable {
     @Basic(optional = false)
     @Column(name = "CLAVE")
     private String clave;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "categoria", fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "categoria")
     private CategoriaDescripcion categoriaDescripcion;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCategoria", fetch = FetchType.LAZY)
-    private List<Equipo> equipoList;
 
     public Categoria() {
     }
@@ -78,14 +73,6 @@ public class Categoria implements Serializable {
 
     public void setCategoriaDescripcion(CategoriaDescripcion categoriaDescripcion) {
         this.categoriaDescripcion = categoriaDescripcion;
-    }
-
-    public List<Equipo> getEquipoList() {
-        return equipoList;
-    }
-
-    public void setEquipoList(List<Equipo> equipoList) {
-        this.equipoList = equipoList;
     }
 
     @Override

@@ -8,22 +8,22 @@ package com.ficufi.copapuebla.persistence.entities;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
  *
- * @author antonio
+ * @author antonio-lap
  */
 @Entity
 @Table(name = "JUGADOR")
@@ -47,10 +47,14 @@ public class Jugador implements Serializable {
     @Basic(optional = false)
     @Column(name = "APELLIDO_PATERNO")
     private String apellidoPaterno;
-    @ManyToMany(mappedBy = "jugadorList", fetch = FetchType.LAZY)
-    private List<Equipo> equipoList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "jugador")
+    private List<EquipoCategoriaTorneo> equipoCategoriaTorneoList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "jugador")
+    private List<JugadorEquipoTorneo> jugadorEquipoTorneoList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "jugador")
+    private List<Marcador> marcadorList;
     @JoinColumn(name = "ID_GENERON", referencedColumnName = "ID")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
     private Genero idGeneron;
 
     public Jugador() {
@@ -107,12 +111,28 @@ public class Jugador implements Serializable {
         this.apellidoPaterno = apellidoPaterno;
     }
 
-    public List<Equipo> getEquipoList() {
-        return equipoList;
+    public List<EquipoCategoriaTorneo> getEquipoCategoriaTorneoList() {
+        return equipoCategoriaTorneoList;
     }
 
-    public void setEquipoList(List<Equipo> equipoList) {
-        this.equipoList = equipoList;
+    public void setEquipoCategoriaTorneoList(List<EquipoCategoriaTorneo> equipoCategoriaTorneoList) {
+        this.equipoCategoriaTorneoList = equipoCategoriaTorneoList;
+    }
+
+    public List<JugadorEquipoTorneo> getJugadorEquipoTorneoList() {
+        return jugadorEquipoTorneoList;
+    }
+
+    public void setJugadorEquipoTorneoList(List<JugadorEquipoTorneo> jugadorEquipoTorneoList) {
+        this.jugadorEquipoTorneoList = jugadorEquipoTorneoList;
+    }
+
+    public List<Marcador> getMarcadorList() {
+        return marcadorList;
+    }
+
+    public void setMarcadorList(List<Marcador> marcadorList) {
+        this.marcadorList = marcadorList;
     }
 
     public Genero getIdGeneron() {

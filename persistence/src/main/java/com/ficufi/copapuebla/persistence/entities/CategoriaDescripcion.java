@@ -9,7 +9,6 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
@@ -19,7 +18,7 @@ import javax.persistence.Table;
 
 /**
  *
- * @author antonio
+ * @author antonio-lap
  */
 @Entity
 @Table(name = "CATEGORIA_DESCRIPCION")
@@ -35,7 +34,7 @@ public class CategoriaDescripcion implements Serializable {
     @Column(name = "DESCRIPCION")
     private String descripcion;
     @JoinColumn(name = "ID", referencedColumnName = "ID", insertable = false, updatable = false)
-    @OneToOne(optional = false, fetch = FetchType.LAZY)
+    @OneToOne(optional = false)
     private Categoria categoria;
 
     public CategoriaDescripcion() {

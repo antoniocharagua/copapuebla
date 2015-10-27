@@ -39,8 +39,8 @@ public class GenericDaoImpl<T, PK extends Serializable> implements GenericDao<T,
     }
 
     @Override
-    public void create(T t) {
-        getCurrent().save(t);
+    public PK create(T t) {
+        return (PK)getCurrent().save(t);
     }
 
     @Override
@@ -61,6 +61,11 @@ public class GenericDaoImpl<T, PK extends Serializable> implements GenericDao<T,
     @Override
     public T find(PK primaryKey) {
         return (T)getCurrent().get(getType(), primaryKey);
+    }
+
+    @Override
+    public void saveOrUpdate(T t) {
+        getCurrent().saveOrUpdate(t);
     }
     
 }

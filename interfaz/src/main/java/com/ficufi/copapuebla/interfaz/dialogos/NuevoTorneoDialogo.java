@@ -1,6 +1,7 @@
 package com.ficufi.copapuebla.interfaz.dialogos;
 
 import com.ficufi.copapuebla.back.service.TorneoService;
+import com.ficufi.copapuebla.interfaz.menu.MenuTorneo;
 import java.awt.Frame;
 import javax.annotation.PostConstruct;
 import javax.swing.JDialog;
@@ -19,6 +20,9 @@ public class NuevoTorneoDialogo extends javax.swing.JPanel {
     
     @Autowired
     private Frame propietario;
+    
+    @Autowired
+    private MenuTorneo menuTorneo;
     
     @Autowired
     private TorneoService torneoService;
@@ -88,6 +92,7 @@ public class NuevoTorneoDialogo extends javax.swing.JPanel {
             return ;
         }
         torneoService.crearTorneo(textFieldTorneo.getText());
+        menuTorneo.updateTorneo();
         dialogo.setVisible(false);
         textFieldTorneo.setText("");
     }//GEN-LAST:event_botonCrearActionPerformed

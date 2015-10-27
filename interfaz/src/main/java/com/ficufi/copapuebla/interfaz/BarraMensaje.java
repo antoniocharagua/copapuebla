@@ -1,6 +1,5 @@
 package com.ficufi.copapuebla.interfaz;
 
-import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.HeadlessException;
@@ -20,7 +19,7 @@ public class BarraMensaje extends JPanel{
     
     public BarraMensaje() throws HeadlessException {
         setLayout(new FlowLayout());
-        setBackground(Color.yellow);
+        
     }
     
 }
