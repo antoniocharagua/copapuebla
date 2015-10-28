@@ -25,4 +25,5 @@ public interface JugadorService {
       * @return lista de los jugadores recuperados
       */
     List<JugadorDto> encuentra(String torneo);
+    
 }
