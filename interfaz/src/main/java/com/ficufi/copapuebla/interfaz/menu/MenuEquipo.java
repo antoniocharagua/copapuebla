@@ -52,6 +52,7 @@ public class MenuEquipo extends JMenu implements ActionListener{
         switch (e.getActionCommand()) {
             case "Crear equipo":
                 equipoDialogo.muestraDialogo();
+                equipoTabla.llenatabla();
                 break;
             case "Muestra equipo":
                 if (principal.getVisorEstatusEnum() != VisorEstatusEnum.TABLA) {

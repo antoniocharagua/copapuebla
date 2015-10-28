@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.ficufi.copapuebla.persistence.entities;
 
 import java.io.Serializable;
@@ -16,8 +11,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -27,32 +20,40 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "JUGADOR")
-@NamedQueries({
-    @NamedQuery(name = "Jugador.findAll", query = "SELECT j FROM Jugador j")})
 public class Jugador implements Serializable {
+
     private static final long serialVersionUID = 1L;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "ID")
     private Integer id;
-    @Column(name = "CURP")
+
+    @Column(name = "CURP", nullable = false, length = 18, unique = true)
     private String curp;
+    
     @Basic(optional = false)
-    @Column(name = "NOMBRE")
+    @Column(name = "NOMBRE", nullable = false, length = 60)
     private String nombre;
+    
     @Basic(optional = false)
-    @Column(name = "APELLIDO_MATERNO")
+    @Column(name = "APELLIDO_MATERNO", nullable = false, length = 40)
     private String apellidoMaterno;
+    
     @Basic(optional = false)
-    @Column(name = "APELLIDO_PATERNO")
+    @Column(name = "APELLIDO_PATERNO", nullable = false, length = 40)
     private String apellidoPaterno;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "jugador")
     private List<EquipoCategoriaTorneo> equipoCategoriaTorneoList;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "jugador")
     private List<JugadorEquipoTorneo> jugadorEquipoTorneoList;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "jugador")
     private List<Marcador> marcadorList;
+    
     @JoinColumn(name = "ID_GENERON", referencedColumnName = "ID")
     @ManyToOne(optional = false)
     private Genero idGeneron;

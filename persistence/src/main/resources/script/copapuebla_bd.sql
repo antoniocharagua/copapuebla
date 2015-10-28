@@ -71,5 +71,3 @@ CREATE TABLE equipo_categoria_torneo(
 
 --informacion basica
 insert into genero (descripcion) values ('Masculino'), ('Femenino'), ('Mixto');
-
-commit;

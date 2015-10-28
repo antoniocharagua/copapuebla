@@ -4,10 +4,10 @@
 
     <appender name="dailyRollingFileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
 		
-        <File>/home/antonio-lap/log/copapuebla-persistence.log</File>
+        <File>/home/antonio/log/copapuebla-persistence.log</File>
 		
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <FileNamePattern>/home/antonio-lap/log/copapuebla-persistence.%d{dd-MM-yyyy}.zip</FileNamePattern>			
+            <FileNamePattern>/home/antonio/log/copapuebla-persistence.%d{dd-MM-yyyy}.zip</FileNamePattern>			
         </rollingPolicy>
 
         <encoder>

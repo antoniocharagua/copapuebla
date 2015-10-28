@@ -8,4 +8,11 @@ import com.ficufi.copapuebla.persistence.entities.Genero;
  */
 public interface GeneroDao extends GenericDao<Genero, Integer>{
     
+    /**
+     * Busca un genero por genero
+     * @param genero
+     * @return 
+     */
+    Genero find(String genero);
+    
 }

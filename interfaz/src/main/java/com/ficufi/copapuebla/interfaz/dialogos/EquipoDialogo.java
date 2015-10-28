@@ -116,6 +116,7 @@ public class EquipoDialogo extends javax.swing.JPanel {
             return ;
         }        
         dialogo.setVisible(false);
+        textEquipo.setText("");
         EquipoDto equipoDto = new EquipoDto();
         equipoDto.setNombre(textEquipo.getText());
         equipoService.crear(equipoDto);

@@ -37,10 +37,11 @@ public class EquipoTabla extends javax.swing.JPanel {
     }
     
     public void llenatabla() {
+        ((DefaultTableModel)tableModel).setRowCount(0);
         for (EquipoDto equipoDto : equipoService.enuentra(null)) {
             ((DefaultTableModel)tableModel).addRow(new Object[]{equipoDto.getNombre(), 
                 equipoDto.getCategoria(), equipoDto.getId()});
-        }        
+        }
     }
 
     /**

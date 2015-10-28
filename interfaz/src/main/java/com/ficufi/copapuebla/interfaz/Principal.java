@@ -1,5 +1,6 @@
 package com.ficufi.copapuebla.interfaz;
 
+import com.ficufi.copapuebla.interfaz.menu.JugadorMenu;
 import com.ficufi.copapuebla.interfaz.menu.MenuCategoria;
 import com.ficufi.copapuebla.interfaz.menu.MenuTorneo;
 import com.ficufi.copapuebla.interfaz.menu.MenuEquipo;
@@ -51,6 +52,9 @@ public class Principal extends JFrame{
     private MenuEquipo menuEquipo;
     
     @Autowired
+    private JugadorMenu jugadorMenu;
+    
+    @Autowired
     private BarraMensaje barraMensaje;    
     
     @Autowired
@@ -75,6 +79,7 @@ public class Principal extends JFrame{
         jMenuBar.add(menuTorneo);
         jMenuBar.add(menuEquipo);
         jMenuBar.add(menuCategoria);
+        jMenuBar.add(jugadorMenu);
         setJMenuBar(jMenuBar);
         jTabbedPane.addTab("Categorías", categoriaTabla);
         jTabbedPane.addTab("Equipos", equipoTabla);

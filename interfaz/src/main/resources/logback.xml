@@ -4,10 +4,10 @@
 
     <appender name="dailyRollingFileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
 		
-        <File>/home/antonio-lap/log/interfaz-back.log</File>
+        <File>/home/antonio/log/interfaz-back.log</File>
 		
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <FileNamePattern>/home/antonio-lap/log/interfaz-back.%d{dd-MM-yyyy}.zip</FileNamePattern>			
+            <FileNamePattern>/home/antonio/log/interfaz-back.%d{dd-MM-yyyy}.zip</FileNamePattern>			
         </rollingPolicy>
 
         <encoder>

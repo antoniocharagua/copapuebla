@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.ficufi.copapuebla.persistence.entities;
 
 import java.io.Serializable;
@@ -22,17 +17,19 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "CATEGORIA_DESCRIPCION")
-@NamedQueries({
-    @NamedQuery(name = "CategoriaDescripcion.findAll", query = "SELECT c FROM CategoriaDescripcion c")})
 public class CategoriaDescripcion implements Serializable {
+
     private static final long serialVersionUID = 1L;
+    
     @Id
     @Basic(optional = false)
     @Column(name = "ID")
     private Integer id;
+    
     @Basic(optional = false)
     @Column(name = "DESCRIPCION")
     private String descripcion;
+    
     @JoinColumn(name = "ID", referencedColumnName = "ID", insertable = false, updatable = false)
     @OneToOne(optional = false)
     private Categoria categoria;
