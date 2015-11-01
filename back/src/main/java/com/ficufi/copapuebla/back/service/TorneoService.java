@@ -12,4 +12,6 @@ public interface TorneoService {
     void crearTorneo(String nombre);
     
     List<TorneoDto> find();
+    
+    TorneoDto find(String nombre);
 }

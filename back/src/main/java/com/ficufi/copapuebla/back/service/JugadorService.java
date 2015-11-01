@@ -26,4 +26,10 @@ public interface JugadorService {
       */
     List<JugadorDto> encuentra(String torneo);
     
+    /**
+     * Existe un jugador con esta CURP
+     * @param curp Clave con la que se busca jugador
+     * @return true en existir, false en otro caso
+     */
+    boolean exist(String curp);
 }

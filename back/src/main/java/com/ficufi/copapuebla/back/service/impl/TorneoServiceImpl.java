@@ -34,4 +34,10 @@ public class TorneoServiceImpl implements TorneoService {
         return lista;
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public TorneoDto find(String nombre) {
+        return new TorneoDto(torneoDao.find(nombre));
+    }
+
 }

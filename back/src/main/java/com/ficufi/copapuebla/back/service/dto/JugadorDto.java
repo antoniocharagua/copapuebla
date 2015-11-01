@@ -13,6 +13,7 @@ public class JugadorDto {
     private String nombre;
     private String apellidoPaterno;
     private String apellidoMaterno;
+    private String genero;
 
     public JugadorDto() {
     }
@@ -23,6 +24,7 @@ public class JugadorDto {
         nombre = jugador.getNombre();
         apellidoMaterno = jugador.getApellidoMaterno();
         apellidoPaterno = jugador.getApellidoPaterno();
+        genero = jugador.getIdGeneron().getDescripcion();
     }
  
     public int getId() {
@@ -65,12 +67,20 @@ public class JugadorDto {
         this.apellidoMaterno = apellidoMaterno;
     }
 
+    public String getGenero() {
+        return genero;
+    }
+
+    public void setGenero(String genero) {
+        this.genero = genero;
+    }
+
     @Override
     public String toString() {
         StringBuilder string = new StringBuilder();
         string.append(" id:").append(id).append(" curp:").append(curp).append(" nombre:").append(nombre)
                 .append(" apellidoPaterno:").append(apellidoPaterno).append(" apellidoMaterno:")
-                .append(apellidoMaterno);
+                .append(apellidoMaterno).append(" genero:").append(genero);
         return string.toString();
     }
 }

@@ -29,6 +29,7 @@ public class JugadorServiceImpl implements JugadorService {
         log.debug("Persisitiendo el jugador:{}", jugadorDto);
         Jugador jugador = new Jugador(jugadorDto.getId(), jugadorDto.getNombre(),
                 jugadorDto.getApellidoMaterno(), jugadorDto.getApellidoPaterno());
+        jugador.setCurp(jugadorDto.getCurp());
         Genero genero = new Genero(generoDto.getId(), generoDto.getDescripcion());
         jugador.setIdGeneron(genero);
         Integer id = jugadorDao.create(jugador);
@@ -45,6 +46,12 @@ public class JugadorServiceImpl implements JugadorService {
             }
         }
         return list;
+    }
+
+    @Override
+    @Transactional
+    public boolean exist(String curp) {
+        return jugadorDao.exist(curp);
     }
     
 }
