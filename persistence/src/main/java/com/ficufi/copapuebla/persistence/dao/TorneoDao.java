@@ -8,4 +8,11 @@ import com.ficufi.copapuebla.persistence.entities.Torneo;
  */
 public interface TorneoDao extends GenericDao<Torneo, Integer>{
     
+    /**
+     * Busca un torneo por su nombre
+     * @param nombre
+     * @return 
+     */
+    Torneo find(String nombre);
+    
 }
