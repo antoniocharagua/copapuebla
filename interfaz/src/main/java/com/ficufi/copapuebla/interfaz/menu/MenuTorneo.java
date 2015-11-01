@@ -22,17 +22,17 @@ import org.springframework.stereotype.Component;
  * @author Antonio Francisco Alonso Valerdi
  */
 @Component
-public class MenuTorneo extends JMenu implements ActionListener{
-        
+public class MenuTorneo extends JMenu implements ActionListener {
+
     private JMenu submenu;
     private Set<String> set;
-    
+
     @Autowired
     private VisorArbol visorArbol;
-    
+
     @Autowired
     private TorneoService torneoService;
-    
+
     @Autowired
     private NuevoTorneoDialogo nuevoTorneoDialogo;
 
@@ -44,30 +44,30 @@ public class MenuTorneo extends JMenu implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         if (set.contains(e.getActionCommand())) {
-            DefaultMutableTreeNode node = (DefaultMutableTreeNode)visorArbol.getTreeModel().getRoot();
-            node.setUserObject(e.getActionCommand());
-            ((DefaultTreeModel)visorArbol.getTreeModel()).nodeChanged(node);
+            DefaultMutableTreeNode node = (DefaultMutableTreeNode) visorArbol.getTreeModel().getRoot();
+            node.setUserObject(torneoService.find(e.getActionCommand()));
+            ((DefaultTreeModel) visorArbol.getTreeModel()).nodeChanged(node);
+        } else {
+            switch (e.getActionCommand()) {
+                case "Crear torneo":
+                    nuevoTorneoDialogo.muestraDialogo();
+                    break;
+                default:
+                    break;
+            }
         }
-        switch (e.getActionCommand()) {
-            case "Crear torneo" :
-                nuevoTorneoDialogo.muestraDialogo();
-                break;
-            default:
-                break;
-        }
-        
     }
-    
+
     @PostConstruct
     public void crearMenus() {
-        JMenuItem jMenuItem = new  JMenuItem("Crear torneo");
+        JMenuItem jMenuItem = new JMenuItem("Crear torneo");
         jMenuItem.addActionListener(this);
         add(jMenuItem);
         submenu = new JMenu("Selección Torneo");
         updateTorneo();
         add(submenu);
     }
-    
+
     public void updateTorneo() {
         JMenuItem jMenuItem = null;
         set.clear();
@@ -86,5 +86,5 @@ public class MenuTorneo extends JMenu implements ActionListener{
             }
         }
     }
-    
+
 }

@@ -1,6 +1,9 @@
 package com.ficufi.copapuebla.interfaz.menu;
 
+import com.ficufi.copapuebla.interfaz.Principal;
+import com.ficufi.copapuebla.interfaz.VisorEstatusEnum;
 import com.ficufi.copapuebla.interfaz.dialogos.JugadorDialogo;
+import com.ficufi.copapuebla.interfaz.tabla.JugadorTabla;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.annotation.PostConstruct;
@@ -23,7 +26,13 @@ public class JugadorMenu extends JMenu {
     private final Acciones acciones;
     
     @Autowired
+    private Principal principal;
+    
+    @Autowired
     private JugadorDialogo jugadorDialogo;
+    
+    @Autowired
+    private JugadorTabla jugadorTabla;
 
     public JugadorMenu() {
         super("Jugador");
@@ -47,6 +56,13 @@ public class JugadorMenu extends JMenu {
             switch (e.getActionCommand()) {
                 case "Crear Jugador":
                     jugadorDialogo.muestraDialogo();
+                    jugadorTabla.llenaDatos();
+                    break;
+                case "Muestra Jugador":
+                    if (principal.getVisorEstatusEnum() != VisorEstatusEnum.TABLA) {
+                        principal.remplazaCentral();
+                    }
+                    principal.getjTabbedPane().setSelectedComponent(jugadorTabla);
                     break;
                 default:
                     throw new AssertionError();

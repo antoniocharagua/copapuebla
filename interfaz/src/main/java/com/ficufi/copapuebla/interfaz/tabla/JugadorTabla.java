@@ -1,16 +1,47 @@
 package com.ficufi.copapuebla.interfaz.tabla;
 
+import com.ficufi.copapuebla.back.service.JugadorService;
+import com.ficufi.copapuebla.back.service.dto.JugadorDto;
+import javax.annotation.PostConstruct;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Component;
+
 /**
  *
  * @author antonio
  */
+@Component
+@Lazy
 public class JugadorTabla extends javax.swing.JPanel {
+    
+    private TableModel tableModel;
+    
+    @Autowired
+    private JugadorService jugadorService;
 
     /**
      * Creates new form JugadorTabla
      */
     public JugadorTabla() {
         initComponents();
+    }
+    
+    @PostConstruct
+    public void init() {
+        tableModel = tablaJugador.getModel();
+        llenaDatos();
+    }
+    
+    public void llenaDatos() {
+        ((DefaultTableModel)tableModel).setRowCount(0);
+        for (JugadorDto jugadorDto : jugadorService.encuentra(null)) {
+            ((DefaultTableModel)tableModel).addRow(new Object[]{jugadorDto.getId(), jugadorDto.getNombre(),
+            jugadorDto.getApellidoPaterno(), jugadorDto.getApellidoMaterno(), jugadorDto.getCurp(),
+            jugadorDto.getGenero()});
+        }
     }
 
     /**

@@ -4,8 +4,10 @@ import com.ficufi.copapuebla.interfaz.menu.JugadorMenu;
 import com.ficufi.copapuebla.interfaz.menu.MenuCategoria;
 import com.ficufi.copapuebla.interfaz.menu.MenuTorneo;
 import com.ficufi.copapuebla.interfaz.menu.MenuEquipo;
+import com.ficufi.copapuebla.interfaz.popup.TorneoPopUp;
 import com.ficufi.copapuebla.interfaz.tabla.CategoriaTabla;
 import com.ficufi.copapuebla.interfaz.tabla.EquipoTabla;
+import com.ficufi.copapuebla.interfaz.tabla.JugadorTabla;
 import java.awt.BorderLayout;
 import java.awt.event.WindowListener;
 import java.util.prefs.Preferences;
@@ -61,7 +63,13 @@ public class Principal extends JFrame{
     private CategoriaTabla categoriaTabla;
     
     @Autowired
+    private JugadorTabla jugadorTabla;
+    
+    @Autowired
     private EquipoTabla equipoTabla;
+    
+    @Autowired
+    private TorneoPopUp arbolPopUp;
     
     public Principal() {        
         preferences = Preferences.userNodeForPackage(getClass());
@@ -83,6 +91,7 @@ public class Principal extends JFrame{
         setJMenuBar(jMenuBar);
         jTabbedPane.addTab("Categorías", categoriaTabla);
         jTabbedPane.addTab("Equipos", equipoTabla);
+        jTabbedPane.addTab("Jugadores", jugadorTabla);
         setTitle(preferences.get("title", "Copa Puebla"));
         int x = preferences.getInt("x", 10);
         int y = preferences.getInt("y", 10);

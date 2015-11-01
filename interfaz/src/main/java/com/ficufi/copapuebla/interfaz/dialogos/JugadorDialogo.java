@@ -235,6 +235,11 @@ public class JugadorDialogo extends javax.swing.JPanel {
                 "Error de escritura", JOptionPane.ERROR_MESSAGE);
             return ;
         }
+        if (jugadorService.exist(cadena)) {
+            JOptionPane.showMessageDialog(dialogo, "La clave CURP ya se encuentra registrada", "CURP repeida", 
+                    JOptionPane.ERROR_MESSAGE);
+            return ;
+        }
         jugadorDto.setCurp(cadena);
         GeneroDto generoDto = (GeneroDto)comboGenero.getSelectedItem();
         jugadorService.crear(jugadorDto, generoDto);
