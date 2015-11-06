@@ -33,6 +33,7 @@ public class Principal extends JFrame{
     private JMenuBar jMenuBar;
     private JSplitPane jSplitPane;
     private JTabbedPane jTabbedPane;
+    private ApplicationContext applicationContext;
     private VisorEstatusEnum visorEstatusEnum;
     
     @Autowired
@@ -83,6 +84,7 @@ public class Principal extends JFrame{
         addWindowListener(windowListener);
         add(barraMensaje, BorderLayout.PAGE_END);        
         add(jSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, visorArbol, visorGeneral));
+        jSplitPane.setResizeWeight(preferences.getDouble("split.weight", 0.2));
         jMenuBar = new JMenuBar();
         jMenuBar.add(menuTorneo);
         jMenuBar.add(menuEquipo);
@@ -117,6 +119,7 @@ public class Principal extends JFrame{
             @Override
             public void run() {
                 Principal principal = applicationContext.getBean(Principal.class);
+                principal.setApplicationContext(applicationContext);
                 principal.setVisible(true);
             }
         });
@@ -132,5 +135,17 @@ public class Principal extends JFrame{
     
     public VisorEstatusEnum getVisorEstatusEnum() {
         return visorEstatusEnum;
+    }
+
+    public JSplitPane getjSplitPane() {
+        return jSplitPane;
+    }
+
+    public void setApplicationContext(ApplicationContext applicationContext) {
+        this.applicationContext = applicationContext;
+    }
+
+    public ApplicationContext getApplicationContext() {
+        return applicationContext;
     }
 }

@@ -6,6 +6,8 @@ import java.awt.event.WindowListener;
 import java.util.prefs.Preferences;
 import javax.swing.JFrame;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.stereotype.Component;
 
 /**
@@ -27,6 +29,9 @@ public class VentanaListener implements WindowListener{
 
     @Override
     public void windowClosing(WindowEvent e) {        
+        ApplicationContext applicationContext = ((Principal)frame).getApplicationContext();
+        AbstractApplicationContext abstractApplicationContext = (AbstractApplicationContext)applicationContext;
+        abstractApplicationContext.close();
         frame.dispose();
     }
 
@@ -38,6 +43,7 @@ public class VentanaListener implements WindowListener{
         preferences.putInt("width", frame.getWidth());
         preferences.putInt("height", frame.getHeight());
         preferences.put("titulo", frame.getTitle());
+        preferences.putDouble("split.weight", ((Principal)frame).getjSplitPane().getResizeWeight());
     }
 
     @Override

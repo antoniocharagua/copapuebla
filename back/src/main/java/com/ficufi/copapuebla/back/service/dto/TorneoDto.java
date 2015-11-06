@@ -15,6 +15,11 @@ public class TorneoDto {
     public TorneoDto() {
     }
 
+    public TorneoDto(int id, String nombre) {
+        this.id = id;
+        this.nombre = nombre;
+    }
+
     public TorneoDto(Torneo torneo) {
         id = torneo.getId();
         nombre = torneo.getNombre();

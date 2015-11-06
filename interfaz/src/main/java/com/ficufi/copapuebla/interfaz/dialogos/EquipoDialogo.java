@@ -115,11 +115,11 @@ public class EquipoDialogo extends javax.swing.JPanel {
                 "Error de escritura", JOptionPane.ERROR_MESSAGE);
             return ;
         }        
-        dialogo.setVisible(false);
-        textEquipo.setText("");
+        dialogo.setVisible(false);        
         EquipoDto equipoDto = new EquipoDto();
         equipoDto.setNombre(textEquipo.getText());
         equipoService.crear(equipoDto);
+        textEquipo.setText("");
     }//GEN-LAST:event_botonCrearActionPerformed
 
     private void botonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCancelarActionPerformed

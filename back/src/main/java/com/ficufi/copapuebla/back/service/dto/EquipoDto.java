@@ -7,7 +7,6 @@ import java.util.Objects;
  * Data Transfer Object para un equipo
  * @author Antonio Francisco Alonso Valerdi
  */
-public class EquipoDto {
 public class EquipoDto implements Comparable<EquipoDto>{
     
     private int id;

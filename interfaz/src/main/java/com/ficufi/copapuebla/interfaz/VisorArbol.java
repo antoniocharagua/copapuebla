@@ -6,15 +6,15 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.prefs.Preferences;
 import javax.annotation.PostConstruct;
-import javax.swing.JLabel;
+import javax.annotation.PreDestroy;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.TreeCellRenderer;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
@@ -30,18 +30,21 @@ import org.springframework.stereotype.Component;
 @Component
 public class VisorArbol extends JPanel{
 
-    private Logger log = LoggerFactory.getLogger(getClass());
+    private final Logger log = LoggerFactory.getLogger(getClass());
+    private final Preferences preferences = Preferences.userNodeForPackage(getClass());
     private JTree arbol;
     private TreeModel treeModel;
     private TreeNode nodo;
     private JScrollPane jScrollPane;
     
     @Autowired
-    private TorneoPopUp arbolPopUp;
+    private TorneoPopUp torneoPopUp;
     
     @PostConstruct
     public void init () {
-        nodo = new DefaultMutableTreeNode();
+        String name = preferences.get("name", null);
+        int id = preferences.getInt("id", 0);
+        nodo = new DefaultMutableTreeNode((name != null && id != 0) ? new TorneoDto(id, name) : null);
         treeModel = new DefaultTreeModel(nodo);
         arbol = new JTree(treeModel);
         arbol.addMouseListener(new PopUpListener());
@@ -51,6 +54,17 @@ public class VisorArbol extends JPanel{
         jScrollPane.setMinimumSize(new Dimension(100, 50));
     }
 
+    @PreDestroy
+    public void destroy() {
+        log.debug("salvado las preferencias de:{}", getClass());
+        DefaultMutableTreeNode node = (DefaultMutableTreeNode)treeModel.getRoot();
+        TorneoDto torneoDto = (TorneoDto)node.getUserObject();
+        if (torneoDto != null) {
+            preferences.put("name", torneoDto.getNombre());
+            preferences.putInt("id", torneoDto.getId());
+        }
+    }
+    
     public TreeModel getTreeModel() {
         return treeModel;
     }
@@ -73,10 +87,13 @@ public class VisorArbol extends JPanel{
                     break;
                 case MouseEvent.BUTTON3:                    
                     TreePath selectedPath = arbol.getPathForLocation(e.getX(), e.getY());
-                    Object object = ((DefaultMutableTreeNode)selectedPath.getLastPathComponent()).getUserObject();
-                    TorneoDto torneoDto = (TorneoDto)object;
-                    log.debug("torneo seleccionado:{}", torneoDto);
-                    //arbolPopUp.show(e.getComponent(), e.getX(), e.getY());
+                    if (selectedPath != null) {
+                        Object object = ((DefaultMutableTreeNode)selectedPath.getLastPathComponent()).getUserObject();
+                        TorneoDto torneoDto = (TorneoDto)object;
+                        log.debug("torneo seleccionado:{}", torneoDto);
+                        torneoPopUp.setTorneoDto(torneoDto);
+                        torneoPopUp.show(e.getComponent(), e.getX(), e.getY());
+                    }
                     break;
                 default:
                     log.warn("click del mouse aun no programado:", e.getButton());
@@ -100,32 +117,18 @@ public class VisorArbol extends JPanel{
         
     }
     
-    private class TorneoCellRenderer extends JLabel implements TreeCellRenderer {
-        
-        DefaultTreeCellRenderer defaultTreeCellRenderer;
-
-        public TorneoCellRenderer() {
-            defaultTreeCellRenderer = new DefaultTreeCellRenderer();
-        }
+    private class TorneoCellRenderer extends DefaultTreeCellRenderer {        
         
         @Override
         public java.awt.Component getTreeCellRendererComponent(JTree tree, Object value, boolean selected, boolean expanded, boolean leaf, int row, boolean hasFocus) {
-            if (selected) {
-                setBackground(defaultTreeCellRenderer.getBackgroundSelectionColor());
-            } else {
-                setBackground(defaultTreeCellRenderer.getBackgroundNonSelectionColor());
-            }
-            if (value != null && value instanceof DefaultMutableTreeNode) {
-                Object object = ((DefaultMutableTreeNode)value).getUserObject();
-                if (object != null) {
-                    TorneoDto torneoDto = (TorneoDto)object;
-                    setText(torneoDto.getNombre());
-                } else {
-                    setText("Sin Torneo");
-                }
-            } 
+            super.getTreeCellRendererComponent(tree, getNombreTorneo(value), leaf, expanded, leaf, row, hasFocus);
             return this;
         }
         
+        private String getNombreTorneo(Object object) {
+            DefaultMutableTreeNode node = (DefaultMutableTreeNode) object;
+            TorneoDto torneoDto = (TorneoDto) node.getUserObject();
+            return torneoDto == null ? "Sin torneo" : torneoDto.getNombre();
+        }
     }
 }
