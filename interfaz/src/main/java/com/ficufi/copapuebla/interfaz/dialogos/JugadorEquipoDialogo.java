@@ -33,8 +33,6 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -116,13 +114,15 @@ public class JugadorEquipoDialogo extends javax.swing.JPanel {
         scrollPaneListaEquipo = new javax.swing.JScrollPane();
         listaEquipo = new javax.swing.JList();
         panelAgregarJugador = new javax.swing.JPanel();
-        etiquetaJugador = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        etiquetaJugadorAgregado = new javax.swing.JLabel();
+        etiquetaSeleccionarJugador = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList();
-        botonAgregarJugador = new javax.swing.JButton();
+        jTable3 = new javax.swing.JTable();
+        jLabel2 = new javax.swing.JLabel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jTable4 = new javax.swing.JTable();
+        panelBotonesSeleccion = new javax.swing.JPanel();
+        botonDescartar = new javax.swing.JButton();
+        botonAgregar = new javax.swing.JButton();
         panelBotones = new javax.swing.JPanel();
         botonAtras = new javax.swing.JButton();
         botonSiguiente = new javax.swing.JButton();
@@ -197,17 +197,13 @@ public class JugadorEquipoDialogo extends javax.swing.JPanel {
 
         panelAgregarJugador.setLayout(new java.awt.GridBagLayout());
 
-        etiquetaJugador.setText("Agregar Jugador");
+        etiquetaSeleccionarJugador.setText("Seleccionar Jugador:");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(12, 12, 0, 0);
-        panelAgregarJugador.add(etiquetaJugador, gridBagConstraints);
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(6, 6, 4, 0);
+        panelAgregarJugador.add(etiquetaSeleccionarJugador, gridBagConstraints);
 
-        jScrollPane1.setPreferredSize(new java.awt.Dimension(453, 300));
-
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTable3.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -218,56 +214,60 @@ public class JugadorEquipoDialogo extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane2.setViewportView(jTable3);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.ipadx = 438;
-        gridBagConstraints.ipady = 127;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weightx = 1.1;
         gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(12, 24, 0, 12);
-        panelAgregarJugador.add(jScrollPane1, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(0, 12, 0, 4);
+        panelAgregarJugador.add(jScrollPane2, gridBagConstraints);
 
-        etiquetaJugadorAgregado.setText("Jugador Agregado:");
+        jLabel2.setText("Juadores Seleccionados:");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(12, 12, 0, 0);
-        panelAgregarJugador.add(etiquetaJugadorAgregado, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(0, 6, 0, 0);
+        panelAgregarJugador.add(jLabel2, gridBagConstraints);
 
-        jList1.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane2.setViewportView(jList1);
+        jTable4.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane4.setViewportView(jTable4);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
-        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.ipadx = 438;
-        gridBagConstraints.ipady = 133;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(13, 24, 1, 10);
-        panelAgregarJugador.add(jScrollPane2, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(0, 12, 8, 4);
+        panelAgregarJugador.add(jScrollPane4, gridBagConstraints);
 
-        botonAgregarJugador.setText("Agregar");
+        panelBotonesSeleccion.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
+
+        botonDescartar.setText("Descartar");
+        botonDescartar.setEnabled(false);
+        panelBotonesSeleccion.add(botonDescartar);
+
+        botonAgregar.setText("Agregar");
+        panelBotonesSeleccion.add(botonAgregar);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-        gridBagConstraints.insets = new java.awt.Insets(7, 0, 0, 11);
-        panelAgregarJugador.add(botonAgregarJugador, gridBagConstraints);
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        panelAgregarJugador.add(panelBotonesSeleccion, gridBagConstraints);
 
         panelCentral.add(panelAgregarJugador, "card3");
 
@@ -320,24 +320,26 @@ public class JugadorEquipoDialogo extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonAceptar;
-    private javax.swing.JButton botonAgregarJugador;
+    private javax.swing.JButton botonAgregar;
     private javax.swing.JButton botonAtras;
     private javax.swing.JButton botonAyuda;
     private javax.swing.JButton botonCancelar;
+    private javax.swing.JButton botonDescartar;
     private javax.swing.JButton botonSiguiente;
     private javax.swing.JTextField campoTextoTorneo;
     private javax.swing.JLabel etiquetaEquipo;
-    private javax.swing.JLabel etiquetaJugador;
-    private javax.swing.JLabel etiquetaJugadorAgregado;
+    private javax.swing.JLabel etiquetaSeleccionarJugador;
     private javax.swing.JLabel etiquetaTorneo;
-    private javax.swing.JList jList1;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JTable jTable3;
+    private javax.swing.JTable jTable4;
     private javax.swing.JList listaEquipo;
     private javax.swing.JPanel panelAgredaEquipo;
     private javax.swing.JPanel panelAgregarJugador;
     private javax.swing.JPanel panelBotones;
+    private javax.swing.JPanel panelBotonesSeleccion;
     private javax.swing.JPanel panelCentral;
     private javax.swing.JEditorPane panelEditorPasos;
     private javax.swing.JScrollPane panelEditorScroll;
