@@ -1,7 +1,7 @@
 package com.ficufi.copapuebla.interfaz.tabla;
 
 import com.ficufi.copapuebla.back.service.EquipoService;
-import com.ficufi.copapuebla.back.service.dto.EquipoDto;
+import com.ficufi.copapuebla.back.dto.EquipoDto;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.swing.table.DefaultTableModel;

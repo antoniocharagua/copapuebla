@@ -10,8 +10,6 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 /**
@@ -20,18 +18,21 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "JUGADOR_EQUIPO_TORNEO")
-@NamedQueries({
-    @NamedQuery(name = "JugadorEquipoTorneo.findAll", query = "SELECT j FROM JugadorEquipoTorneo j")})
 public class JugadorEquipoTorneo implements Serializable {
+
     private static final long serialVersionUID = 1L;
+    
     @EmbeddedId
     protected JugadorEquipoTorneoPK jugadorEquipoTorneoPK;
+    
     @JoinColumn(name = "ID_TORNEO", referencedColumnName = "ID", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Torneo torneo;
+    
     @JoinColumn(name = "ID_JUGADOR", referencedColumnName = "ID", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Jugador jugador;
+    
     @JoinColumn(name = "ID_EQUIPO", referencedColumnName = "ID", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Equipo equipo;

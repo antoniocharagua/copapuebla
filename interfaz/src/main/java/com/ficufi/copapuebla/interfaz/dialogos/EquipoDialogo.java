@@ -1,7 +1,7 @@
 package com.ficufi.copapuebla.interfaz.dialogos;
 
 import com.ficufi.copapuebla.back.service.EquipoService;
-import com.ficufi.copapuebla.back.service.dto.EquipoDto;
+import com.ficufi.copapuebla.back.dto.EquipoDto;
 import com.ficufi.copapuebla.interfaz.Principal;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;

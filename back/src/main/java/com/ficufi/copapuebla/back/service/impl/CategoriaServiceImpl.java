@@ -1,7 +1,7 @@
 package com.ficufi.copapuebla.back.service.impl;
 
 import com.ficufi.copapuebla.back.service.CategoriaService;
-import com.ficufi.copapuebla.back.service.dto.CategoriaDto;
+import com.ficufi.copapuebla.back.dto.CategoriaDto;
 import com.ficufi.copapuebla.persistence.dao.CategoriaDao;
 import com.ficufi.copapuebla.persistence.dao.CategoriaDescripcionDao;
 import com.ficufi.copapuebla.persistence.entities.Categoria;

@@ -1,6 +1,6 @@
 package com.ficufi.copapuebla.interfaz.popup;
 
-import com.ficufi.copapuebla.back.service.dto.TorneoDto;
+import com.ficufi.copapuebla.back.dto.TorneoDto;
 import com.ficufi.copapuebla.interfaz.dialogos.JugadorEquipoDialogo;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

@@ -1,4 +1,4 @@
-package com.ficufi.copapuebla.back.service.dto;
+package com.ficufi.copapuebla.back.dto;
 
 import com.ficufi.copapuebla.persistence.entities.Jugador;
 

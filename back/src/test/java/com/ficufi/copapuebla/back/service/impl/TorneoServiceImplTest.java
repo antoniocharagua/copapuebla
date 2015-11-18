@@ -1,7 +1,7 @@
 package com.ficufi.copapuebla.back.service.impl;
 
 import com.ficufi.copapuebla.back.service.TorneoService;
-import com.ficufi.copapuebla.back.service.dto.TorneoDto;
+import com.ficufi.copapuebla.back.dto.TorneoDto;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

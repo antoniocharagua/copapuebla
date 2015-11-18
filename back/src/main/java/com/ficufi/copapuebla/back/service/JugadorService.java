@@ -1,7 +1,7 @@
 package com.ficufi.copapuebla.back.service;
 
-import com.ficufi.copapuebla.back.service.dto.GeneroDto;
-import com.ficufi.copapuebla.back.service.dto.JugadorDto;
+import com.ficufi.copapuebla.back.dto.GeneroDto;
+import com.ficufi.copapuebla.back.dto.JugadorDto;
 import java.util.List;
 
 /**

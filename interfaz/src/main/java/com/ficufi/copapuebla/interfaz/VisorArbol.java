@@ -1,6 +1,6 @@
 package com.ficufi.copapuebla.interfaz;
 
-import com.ficufi.copapuebla.back.service.dto.TorneoDto;
+import com.ficufi.copapuebla.back.dto.TorneoDto;
 import com.ficufi.copapuebla.interfaz.popup.TorneoPopUp;
 import java.awt.BorderLayout;
 import java.awt.Dimension;

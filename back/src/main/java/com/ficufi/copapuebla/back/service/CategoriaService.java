@@ -1,6 +1,6 @@
 package com.ficufi.copapuebla.back.service;
 
-import com.ficufi.copapuebla.back.service.dto.CategoriaDto;
+import com.ficufi.copapuebla.back.dto.CategoriaDto;
 import java.util.List;
 
 /**

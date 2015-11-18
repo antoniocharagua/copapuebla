@@ -1,7 +1,7 @@
 package com.ficufi.copapuebla.back.service.impl;
 
 import com.ficufi.copapuebla.back.service.EquipoService;
-import com.ficufi.copapuebla.back.service.dto.EquipoDto;
+import com.ficufi.copapuebla.back.dto.EquipoDto;
 import com.ficufi.copapuebla.persistence.dao.EquipoDao;
 import com.ficufi.copapuebla.persistence.entities.Equipo;
 import java.util.ArrayList;

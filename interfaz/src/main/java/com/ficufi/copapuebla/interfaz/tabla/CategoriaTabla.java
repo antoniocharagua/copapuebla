@@ -1,7 +1,7 @@
 package com.ficufi.copapuebla.interfaz.tabla;
 
 import com.ficufi.copapuebla.back.service.CategoriaService;
-import com.ficufi.copapuebla.back.service.dto.CategoriaDto;
+import com.ficufi.copapuebla.back.dto.CategoriaDto;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.util.prefs.Preferences;

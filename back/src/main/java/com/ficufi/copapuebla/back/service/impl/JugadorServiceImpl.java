@@ -1,8 +1,8 @@
 package com.ficufi.copapuebla.back.service.impl;
 
 import com.ficufi.copapuebla.back.service.JugadorService;
-import com.ficufi.copapuebla.back.service.dto.GeneroDto;
-import com.ficufi.copapuebla.back.service.dto.JugadorDto;
+import com.ficufi.copapuebla.back.dto.GeneroDto;
+import com.ficufi.copapuebla.back.dto.JugadorDto;
 import com.ficufi.copapuebla.persistence.dao.JugadorDao;
 import com.ficufi.copapuebla.persistence.entities.Genero;
 import com.ficufi.copapuebla.persistence.entities.Jugador;

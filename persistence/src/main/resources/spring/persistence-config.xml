@@ -17,7 +17,7 @@
     
     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close"
           p:driverClass="${jdbc.driverClassName}"
-          p:jdbcUrl="${jdbc.employee_db_url}"
+          p:jdbcUrl="${jdbc.url}"
           p:user="${jdbc.username}"
           p:password="${jdbc.password}"
           p:maxPoolSize="${jdbc.maxPoolSize}"
@@ -31,7 +31,9 @@
         <property name="hibernateProperties">
             <props>
                 <prop key="hibernate.dialect">${hibernate.dialect}</prop>                
-                <prop key="hibernate.show_sql">${hibernate.show_sql}</prop>                    
+                <prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+                <prop key="hibernate.hbm2ddl.auto">create</prop>
+                <prop key="hibernate.hbm2ddl.import_files">../script/copapuebla_db.sql</prop>
             </props>
         </property>
     </bean>

@@ -1,7 +1,7 @@
 package com.ficufi.copapuebla.interfaz.menu;
 
 import com.ficufi.copapuebla.back.service.TorneoService;
-import com.ficufi.copapuebla.back.service.dto.TorneoDto;
+import com.ficufi.copapuebla.back.dto.TorneoDto;
 import com.ficufi.copapuebla.interfaz.VisorArbol;
 import com.ficufi.copapuebla.interfaz.dialogos.NuevoTorneoDialogo;
 import java.awt.event.ActionEvent;

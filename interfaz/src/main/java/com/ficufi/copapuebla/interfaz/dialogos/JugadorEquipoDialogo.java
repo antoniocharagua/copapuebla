@@ -17,9 +17,12 @@
 package com.ficufi.copapuebla.interfaz.dialogos;
 
 import com.ficufi.copapuebla.back.service.EquipoService;
-import com.ficufi.copapuebla.back.service.dto.EquipoDto;
-import com.ficufi.copapuebla.back.service.dto.TorneoDto;
+import com.ficufi.copapuebla.back.service.JugadorService;
+import com.ficufi.copapuebla.back.dto.EquipoDto;
+import com.ficufi.copapuebla.back.dto.JugadorDto;
+import com.ficufi.copapuebla.back.dto.TorneoDto;
 import com.ficufi.copapuebla.interfaz.Principal;
+import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.io.IOException;
 import java.net.URL;
@@ -32,7 +35,9 @@ import javax.swing.AbstractListModel;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.ListCellRenderer;
+import javax.swing.table.DefaultTableModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,14 +52,24 @@ import org.springframework.stereotype.Component;
 @Lazy
 public class JugadorEquipoDialogo extends javax.swing.JPanel {
     
+    private enum Estado {EQUIPO, JUGADOR};
+    
     private final Logger log = LoggerFactory.getLogger(getClass());
     private TorneoDto torneoDto;
-    private JDialog dialogo;
-    private Principal propietario;
+    private EquipoDto equipoDto;
+    private List<Integer> listaJugadores;
+    private JDialog dialogo;    
     private ModeloListaEquipo modeloListaEquipo;
+    private Estado estado;
+    
+    @Autowired
+    private Principal propietario;
     
     @Autowired
     private EquipoService equipoService;
+    
+    @Autowired
+    private JugadorService jugadorService;
 
     /**
      * Creates new form JuadorEquipoDialogo
@@ -66,6 +81,7 @@ public class JugadorEquipoDialogo extends javax.swing.JPanel {
     
     @PostConstruct
     public void init() {
+        estado = Estado.EQUIPO;
         listaEquipo.setCellRenderer(new RenderListaEquipo());        
         URL resource = getClass().getResource("/mensajes/relaciona_equipo.html");
         try {
@@ -79,9 +95,9 @@ public class JugadorEquipoDialogo extends javax.swing.JPanel {
         if (dialogo == null || dialogo.getOwner() != propietario) {            
             dialogo = new JDialog(propietario, true);
             dialogo.add(this);
-            dialogo.setTitle("Nuevo Torneo");
+            dialogo.setTitle("Agregar un equipo");
             dialogo.getRootPane().setDefaultButton(botonCancelar);
-            dialogo.setPreferredSize(new Dimension(600, 500));
+            dialogo.setPreferredSize(new Dimension(700, 500));
             dialogo.pack();
             dialogo.setLocationRelativeTo(propietario);
             llenaListaEquipo();
@@ -91,8 +107,8 @@ public class JugadorEquipoDialogo extends javax.swing.JPanel {
     
     private void llenaListaEquipo() {
         campoTextoTorneo.setText(torneoDto.getNombre());
-        for (EquipoDto equipoDto : equipoService.enuentra(null)) {
-            modeloListaEquipo.add(equipoDto);
+        for (EquipoDto equipoDto2 : equipoService.enuentra(null)) {
+            modeloListaEquipo.add(equipoDto2);
         }
     }
 
@@ -115,14 +131,14 @@ public class JugadorEquipoDialogo extends javax.swing.JPanel {
         listaEquipo = new javax.swing.JList();
         panelAgregarJugador = new javax.swing.JPanel();
         etiquetaSeleccionarJugador = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
-        jLabel2 = new javax.swing.JLabel();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        jTable4 = new javax.swing.JTable();
+        scrollSeleccionJugador = new javax.swing.JScrollPane();
+        tablaSeleccionJugador = new javax.swing.JTable();
+        etiquetaJugadoresSeleccionados = new javax.swing.JLabel();
+        scrollJugadoresSeleccionados = new javax.swing.JScrollPane();
+        tablaJugadoresSeleccionados = new javax.swing.JTable();
         panelBotonesSeleccion = new javax.swing.JPanel();
         botonDescartar = new javax.swing.JButton();
-        botonAgregar = new javax.swing.JButton();
+        botonAgregarJugador = new javax.swing.JButton();
         panelBotones = new javax.swing.JPanel();
         botonAtras = new javax.swing.JButton();
         botonSiguiente = new javax.swing.JButton();
@@ -152,11 +168,6 @@ public class JugadorEquipoDialogo extends javax.swing.JPanel {
         campoTextoTorneo.setEditable(false);
         campoTextoTorneo.setColumns(30);
         campoTextoTorneo.setToolTipText("Torneo al cual se le agregará el equipo");
-        campoTextoTorneo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                campoTextoTorneoActionPerformed(evt);
-            }
-        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -203,18 +214,30 @@ public class JugadorEquipoDialogo extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(6, 6, 4, 0);
         panelAgregarJugador.add(etiquetaSeleccionarJugador, gridBagConstraints);
 
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+        tablaSeleccionJugador.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Nombre", "Apellido Paterno", "Apellido Materno", "Id"
             }
-        ));
-        jScrollPane2.setViewportView(jTable3);
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
+            };
+            boolean[] canEdit = new boolean [] {
+                true, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        scrollSeleccionJugador.setViewportView(tablaSeleccionJugador);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -224,26 +247,38 @@ public class JugadorEquipoDialogo extends javax.swing.JPanel {
         gridBagConstraints.weightx = 1.1;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 12, 0, 4);
-        panelAgregarJugador.add(jScrollPane2, gridBagConstraints);
+        panelAgregarJugador.add(scrollSeleccionJugador, gridBagConstraints);
 
-        jLabel2.setText("Juadores Seleccionados:");
+        etiquetaJugadoresSeleccionados.setText("Juadores Seleccionados:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 2;
         gridBagConstraints.insets = new java.awt.Insets(0, 6, 0, 0);
-        panelAgregarJugador.add(jLabel2, gridBagConstraints);
+        panelAgregarJugador.add(etiquetaJugadoresSeleccionados, gridBagConstraints);
 
-        jTable4.setModel(new javax.swing.table.DefaultTableModel(
+        tablaJugadoresSeleccionados.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Nomnre", "Apellido Paterno", "Apellido Paterno", "Id"
             }
-        ));
-        jScrollPane4.setViewportView(jTable4);
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        scrollJugadoresSeleccionados.setViewportView(tablaJugadoresSeleccionados);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -253,23 +288,33 @@ public class JugadorEquipoDialogo extends javax.swing.JPanel {
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 12, 8, 4);
-        panelAgregarJugador.add(jScrollPane4, gridBagConstraints);
+        panelAgregarJugador.add(scrollJugadoresSeleccionados, gridBagConstraints);
 
         panelBotonesSeleccion.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
         botonDescartar.setText("Descartar");
         botonDescartar.setEnabled(false);
+        botonDescartar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonDescartarActionPerformed(evt);
+            }
+        });
         panelBotonesSeleccion.add(botonDescartar);
 
-        botonAgregar.setText("Agregar");
-        panelBotonesSeleccion.add(botonAgregar);
+        botonAgregarJugador.setText("Agregar");
+        botonAgregarJugador.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonAgregarJugadorActionPerformed(evt);
+            }
+        });
+        panelBotonesSeleccion.add(botonAgregarJugador);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         panelAgregarJugador.add(panelBotonesSeleccion, gridBagConstraints);
 
-        panelCentral.add(panelAgregarJugador, "card3");
+        panelCentral.add(panelAgregarJugador, "panelJugador");
 
         add(panelCentral, java.awt.BorderLayout.CENTER);
 
@@ -277,13 +322,28 @@ public class JugadorEquipoDialogo extends javax.swing.JPanel {
 
         botonAtras.setText("Atras");
         botonAtras.setEnabled(false);
+        botonAtras.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonAtrasActionPerformed(evt);
+            }
+        });
         panelBotones.add(botonAtras);
 
         botonSiguiente.setText("Siguiente");
+        botonSiguiente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonSiguienteActionPerformed(evt);
+            }
+        });
         panelBotones.add(botonSiguiente);
 
         botonAceptar.setText("Aceptar");
         botonAceptar.setEnabled(false);
+        botonAceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonAceptarActionPerformed(evt);
+            }
+        });
         panelBotones.add(botonAceptar);
 
         botonCancelar.setText("Cancelar");
@@ -310,17 +370,92 @@ public class JugadorEquipoDialogo extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCancelarActionPerformed
+        ((DefaultTableModel)tablaJugadoresSeleccionados.getModel()).setRowCount(0);
+        ((DefaultTableModel)tablaSeleccionJugador.getModel()).setRowCount(0);
+        listaEquipo.removeAll();
         dialogo.setVisible(false);
     }//GEN-LAST:event_botonCancelarActionPerformed
 
-    private void campoTextoTorneoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoTextoTorneoActionPerformed
+    private void botonSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonSiguienteActionPerformed
+        switch (estado) {
+            case EQUIPO:
+                Object object = listaEquipo.getSelectedValue();
+                if (object == null) {
+                    JOptionPane.showMessageDialog(dialogo, "Debe seleccionar un equipo almenos", "Error de Selección", JOptionPane.ERROR_MESSAGE);
+                    return ;
+                }
+                equipoDto = (EquipoDto)listaEquipo.getSelectedValue();
+                CardLayout cardLayout = (CardLayout)panelCentral.getLayout();
+                cardLayout.show(panelCentral,"panelJugador");
+                for (JugadorDto jugadorDto : jugadorService.encuentra(null)) {
+                    ((DefaultTableModel)tablaSeleccionJugador.getModel()).addRow(new Object[]{jugadorDto.getNombre(), jugadorDto.getApellidoPaterno(),
+                    jugadorDto.getApellidoMaterno(), jugadorDto.getId()});
+                }
+                botonAtras.setEnabled(true);
+                botonAceptar.setEnabled(true);
+                estado = Estado.JUGADOR;
+                break;
+            case JUGADOR:
+                
+                break;
+            default:
+                log.error("Opcion un no manejada:{}",estado);
+        }
+                
+    }//GEN-LAST:event_botonSiguienteActionPerformed
+
+    private void botonAgregarJugadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAgregarJugadorActionPerformed
+        int seleccionado = tablaSeleccionJugador.getSelectedRow();
+        Object[] objects = new Object[tablaSeleccionJugador.getColumnCount()];
+        if (seleccionado != -1) {
+            for (int i = 0; i < tablaSeleccionJugador.getColumnCount(); i++) {
+                objects[i] = tablaSeleccionJugador.getValueAt(seleccionado, i);
+            }
+            ((DefaultTableModel)tablaJugadoresSeleccionados.getModel()).addRow(objects);
+            ((DefaultTableModel)tablaSeleccionJugador.getModel()).removeRow(seleccionado);
+        }        
+        if (!botonDescartar.isEnabled()) {
+            botonDescartar.setEnabled(true);
+        }
+    }//GEN-LAST:event_botonAgregarJugadorActionPerformed
+
+    private void botonDescartarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonDescartarActionPerformed
+        int seleccionado = tablaJugadoresSeleccionados.getSelectedRow();        
+        if (seleccionado != -1) {
+            Object[] objects = new Object[tablaSeleccionJugador.getColumnCount()];
+            for (int i = 0; i < tablaSeleccionJugador.getColumnCount(); i++) {
+                objects[i] = tablaJugadoresSeleccionados.getValueAt(seleccionado, i);
+            }
+            ((DefaultTableModel)tablaSeleccionJugador.getModel()).addRow(objects);
+            ((DefaultTableModel)tablaJugadoresSeleccionados.getModel()).removeRow(seleccionado);
+        }        
+        if (tablaJugadoresSeleccionados.getRowCount() == 0) {
+            botonDescartar.setEnabled(false);
+        }
+    }//GEN-LAST:event_botonDescartarActionPerformed
+
+    private void botonAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAtrasActionPerformed
+        switch (estado) {
+            case JUGADOR:
+                CardLayout cardLayout = (CardLayout)panelCentral.getLayout();
+                cardLayout.show(panelCentral,"cardEquipo");
+                estado = Estado.EQUIPO;
+                botonAceptar.setEnabled(false);
+                botonAtras.setEnabled(false);
+                break;
+            default:
+                log.error("Opcion un no manejada:{}",estado);
+        }
+    }//GEN-LAST:event_botonAtrasActionPerformed
+
+    private void botonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAceptarActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_campoTextoTorneoActionPerformed
+    }//GEN-LAST:event_botonAceptarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonAceptar;
-    private javax.swing.JButton botonAgregar;
+    private javax.swing.JButton botonAgregarJugador;
     private javax.swing.JButton botonAtras;
     private javax.swing.JButton botonAyuda;
     private javax.swing.JButton botonCancelar;
@@ -328,13 +463,9 @@ public class JugadorEquipoDialogo extends javax.swing.JPanel {
     private javax.swing.JButton botonSiguiente;
     private javax.swing.JTextField campoTextoTorneo;
     private javax.swing.JLabel etiquetaEquipo;
+    private javax.swing.JLabel etiquetaJugadoresSeleccionados;
     private javax.swing.JLabel etiquetaSeleccionarJugador;
     private javax.swing.JLabel etiquetaTorneo;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JTable jTable3;
-    private javax.swing.JTable jTable4;
     private javax.swing.JList listaEquipo;
     private javax.swing.JPanel panelAgredaEquipo;
     private javax.swing.JPanel panelAgregarJugador;
@@ -344,7 +475,11 @@ public class JugadorEquipoDialogo extends javax.swing.JPanel {
     private javax.swing.JEditorPane panelEditorPasos;
     private javax.swing.JScrollPane panelEditorScroll;
     private javax.swing.JPanel panelPasos;
+    private javax.swing.JScrollPane scrollJugadoresSeleccionados;
     private javax.swing.JScrollPane scrollPaneListaEquipo;
+    private javax.swing.JScrollPane scrollSeleccionJugador;
+    private javax.swing.JTable tablaJugadoresSeleccionados;
+    private javax.swing.JTable tablaSeleccionJugador;
     // End of variables declaration//GEN-END:variables
 
     private class RenderListaEquipo extends JLabel implements ListCellRenderer<EquipoDto> {
@@ -395,5 +530,5 @@ public class JugadorEquipoDialogo extends javax.swing.JPanel {
     public void setTorneoDto(TorneoDto torneoDto) {
         this.torneoDto = torneoDto;
     }
-       
+    
 }

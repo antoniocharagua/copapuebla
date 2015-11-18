@@ -3,7 +3,6 @@ package com.ficufi.copapuebla.persistence.dao.impl;
 import com.ficufi.copapuebla.persistence.dao.EquipoDao;
 import com.ficufi.copapuebla.persistence.entities.Equipo;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;

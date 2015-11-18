@@ -1,7 +1,7 @@
 package com.ficufi.copapuebla.interfaz.tabla;
 
 import com.ficufi.copapuebla.back.service.JugadorService;
-import com.ficufi.copapuebla.back.service.dto.JugadorDto;
+import com.ficufi.copapuebla.back.dto.JugadorDto;
 import javax.annotation.PostConstruct;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;

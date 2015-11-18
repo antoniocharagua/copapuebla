@@ -2,8 +2,8 @@ package com.ficufi.copapuebla.interfaz.dialogos;
 
 import com.ficufi.copapuebla.back.service.GeneroService;
 import com.ficufi.copapuebla.back.service.JugadorService;
-import com.ficufi.copapuebla.back.service.dto.GeneroDto;
-import com.ficufi.copapuebla.back.service.dto.JugadorDto;
+import com.ficufi.copapuebla.back.dto.GeneroDto;
+import com.ficufi.copapuebla.back.dto.JugadorDto;
 import com.ficufi.copapuebla.interfaz.Principal;
 import javax.swing.JDialog;
 import javax.swing.JLabel;

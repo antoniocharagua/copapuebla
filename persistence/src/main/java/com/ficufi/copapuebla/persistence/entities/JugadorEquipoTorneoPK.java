@@ -16,12 +16,15 @@ import javax.persistence.Embeddable;
  */
 @Embeddable
 public class JugadorEquipoTorneoPK implements Serializable {
+    
     @Basic(optional = false)
     @Column(name = "ID_JUGADOR")
     private int idJugador;
+    
     @Basic(optional = false)
     @Column(name = "ID_TORNEO")
     private int idTorneo;
+    
     @Basic(optional = false)
     @Column(name = "ID_EQUIPO")
     private int idEquipo;

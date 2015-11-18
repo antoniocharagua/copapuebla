@@ -1,7 +1,7 @@
 package com.ficufi.copapuebla.back.service.impl;
 
 import com.ficufi.copapuebla.back.service.GeneroService;
-import com.ficufi.copapuebla.back.service.dto.GeneroDto;
+import com.ficufi.copapuebla.back.dto.GeneroDto;
 import com.ficufi.copapuebla.persistence.dao.GeneroDao;
 import com.ficufi.copapuebla.persistence.entities.Genero;
 import java.util.ArrayList;
